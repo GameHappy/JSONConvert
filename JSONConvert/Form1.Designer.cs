@@ -41,14 +41,13 @@
             listBox1 = new ListBox();
             OutputBtn = new Button();
             InputBtn = new Button();
-            Col3_Txt = new NumericUpDown();
             Col4_Txt = new NumericUpDown();
             listRemoveBtn = new Button();
             editBtn = new Button();
             prevBtn = new Button();
             openFileDialog1 = new OpenFileDialog();
             folderBrowserDialog1 = new FolderBrowserDialog();
-            ((System.ComponentModel.ISupportInitialize)Col3_Txt).BeginInit();
+            Col3_Txt = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)Col4_Txt).BeginInit();
             SuspendLayout();
             // 
@@ -87,7 +86,7 @@
             // 
             Col_3.AutoSize = true;
             Col_3.Font = new Font("Segoe UI", 12F);
-            Col_3.Location = new Point(12, 128);
+            Col_3.Location = new Point(12, 175);
             Col_3.Name = "Col_3";
             Col_3.Size = new Size(73, 21);
             Col_3.TabIndex = 3;
@@ -97,7 +96,7 @@
             // 
             Col_4.AutoSize = true;
             Col_4.Font = new Font("Segoe UI", 12F);
-            Col_4.Location = new Point(12, 168);
+            Col_4.Location = new Point(12, 215);
             Col_4.Name = "Col_4";
             Col_4.Size = new Size(44, 21);
             Col_4.TabIndex = 4;
@@ -107,7 +106,7 @@
             // 
             Col_5.AutoSize = true;
             Col_5.Font = new Font("Segoe UI", 12F);
-            Col_5.Location = new Point(12, 208);
+            Col_5.Location = new Point(12, 251);
             Col_5.Name = "Col_5";
             Col_5.Size = new Size(89, 21);
             Col_5.TabIndex = 5;
@@ -115,7 +114,7 @@
             // 
             // EnterBtn
             // 
-            EnterBtn.Location = new Point(12, 267);
+            EnterBtn.Location = new Point(12, 312);
             EnterBtn.Name = "EnterBtn";
             EnterBtn.Size = new Size(52, 23);
             EnterBtn.TabIndex = 6;
@@ -133,13 +132,14 @@
             // Col2_Txt
             // 
             Col2_Txt.Location = new Point(127, 86);
+            Col2_Txt.Multiline = true;
             Col2_Txt.Name = "Col2_Txt";
-            Col2_Txt.Size = new Size(120, 23);
+            Col2_Txt.Size = new Size(120, 69);
             Col2_Txt.TabIndex = 8;
             // 
             // Col5_Txt
             // 
-            Col5_Txt.Location = new Point(127, 206);
+            Col5_Txt.Location = new Point(137, 251);
             Col5_Txt.Multiline = true;
             Col5_Txt.Name = "Col5_Txt";
             Col5_Txt.Size = new Size(152, 84);
@@ -151,7 +151,7 @@
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(310, 46);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(187, 244);
+            listBox1.Size = new Size(187, 289);
             listBox1.TabIndex = 12;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
@@ -175,19 +175,10 @@
             InputBtn.UseVisualStyleBackColor = true;
             InputBtn.Click += InputBtn_Click;
             // 
-            // Col3_Txt
-            // 
-            Col3_Txt.Location = new Point(127, 126);
-            Col3_Txt.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
-            Col3_Txt.Name = "Col3_Txt";
-            Col3_Txt.Size = new Size(120, 23);
-            Col3_Txt.TabIndex = 15;
-            Col3_Txt.TextAlign = HorizontalAlignment.Center;
-            // 
             // Col4_Txt
             // 
             Col4_Txt.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            Col4_Txt.Location = new Point(127, 166);
+            Col4_Txt.Location = new Point(127, 213);
             Col4_Txt.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             Col4_Txt.Name = "Col4_Txt";
             Col4_Txt.Size = new Size(120, 23);
@@ -217,7 +208,7 @@
             // prevBtn
             // 
             prevBtn.Enabled = false;
-            prevBtn.Location = new Point(69, 267);
+            prevBtn.Location = new Point(70, 312);
             prevBtn.Name = "prevBtn";
             prevBtn.Size = new Size(52, 23);
             prevBtn.TabIndex = 19;
@@ -229,16 +220,25 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
+            // Col3_Txt
+            // 
+            Col3_Txt.FormattingEnabled = true;
+            Col3_Txt.Items.AddRange(new object[] { "seed", "corp", "food", "fish", "other" });
+            Col3_Txt.Location = new Point(126, 175);
+            Col3_Txt.Name = "Col3_Txt";
+            Col3_Txt.Size = new Size(121, 23);
+            Col3_Txt.TabIndex = 20;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(600, 331);
+            ClientSize = new Size(600, 357);
+            Controls.Add(Col3_Txt);
             Controls.Add(prevBtn);
             Controls.Add(editBtn);
             Controls.Add(listRemoveBtn);
             Controls.Add(Col4_Txt);
-            Controls.Add(Col3_Txt);
             Controls.Add(InputBtn);
             Controls.Add(OutputBtn);
             Controls.Add(listBox1);
@@ -255,7 +255,6 @@
             Name = "MainForm";
             Text = "JSON Convert";
             Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)Col3_Txt).EndInit();
             ((System.ComponentModel.ISupportInitialize)Col4_Txt).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -276,12 +275,12 @@
         private ListBox listBox1;
         private Button OutputBtn;
         private Button InputBtn;
-        private NumericUpDown Col3_Txt;
         private NumericUpDown Col4_Txt;
         private Button listRemoveBtn;
         private Button editBtn;
         private Button prevBtn;
         private OpenFileDialog openFileDialog1;
         private FolderBrowserDialog folderBrowserDialog1;
+        private ComboBox Col3_Txt;
     }
 }

@@ -38,7 +38,7 @@
             {
                 _name = Col1_Txt.Text;
                 _detail = Col2_Txt.Text;
-                _itemType = (int)Col3_Txt.Value;
+                _itemType = Col3_Txt.SelectedIndex;
                 _price = (int)Col4_Txt.Value;
                 _description = Col5_Txt.Text;
             }
@@ -63,7 +63,7 @@
         {
             Col1_Txt.Text = preName;
             Col2_Txt.Text = preDetail;
-            Col3_Txt.Value = preItemType;
+            Col3_Txt.SelectedIndex = preItemType;
             Col4_Txt.Value = prePrice;
             Col5_Txt.Text = preDescription;
             prevBtn.Enabled = false;
@@ -92,7 +92,7 @@
             listBox1.Items[index] = Col1_Txt.Text;
             _Name[index] = Col1_Txt.Text;
             Detail[index] = Col2_Txt.Text;
-            ItemType[index] = (int)Col3_Txt.Value;
+            ItemType[index] = (int)Col3_Txt.SelectedIndex;
             Price[index] = (int)Col4_Txt.Value;
             Description[index] = Col5_Txt.Text;
             listEditOnly = false;
@@ -146,7 +146,7 @@
             {
                 preName = Col1_Txt.Text;
                 preDetail = Col2_Txt.Text;
-                preItemType = (int)Col3_Txt.Value;
+                preItemType = (int)Col3_Txt.SelectedIndex;
                 prePrice = (int)Col4_Txt.Value;
                 preDescription = Col5_Txt.Text;
             }
@@ -156,7 +156,7 @@
             {
                 Col1_Txt.Text = _Name[index];
                 Col2_Txt.Text = Detail[index];
-                Col3_Txt.Value = ItemType[index];
+                Col3_Txt.SelectedIndex = ItemType[index];
                 Col4_Txt.Value = Price[index];
                 Col5_Txt.Text = Description[index];
             }
