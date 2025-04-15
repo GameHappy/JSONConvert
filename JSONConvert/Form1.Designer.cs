@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AddColumn = new Button();
             Col_1 = new Label();
             Col_2 = new Label();
             Col_3 = new Label();
@@ -48,19 +47,14 @@
             openFileDialog1 = new OpenFileDialog();
             folderBrowserDialog1 = new FolderBrowserDialog();
             Col3_Txt = new ComboBox();
+            comboBox1 = new ComboBox();
+            Col_0 = new Label();
+            Col0_Txt = new NumericUpDown();
+            listBox2 = new ListBox();
+            comboBox2 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)Col4_Txt).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Col0_Txt).BeginInit();
             SuspendLayout();
-            // 
-            // AddColumn
-            // 
-            AddColumn.BackColor = SystemColors.Window;
-            AddColumn.Enabled = false;
-            AddColumn.Location = new Point(12, 12);
-            AddColumn.Name = "AddColumn";
-            AddColumn.Size = new Size(91, 23);
-            AddColumn.TabIndex = 0;
-            AddColumn.Text = "Add Column";
-            AddColumn.UseVisualStyleBackColor = false;
             // 
             // Col_1
             // 
@@ -76,7 +70,7 @@
             // 
             Col_2.AutoSize = true;
             Col_2.Font = new Font("Segoe UI", 12F);
-            Col_2.Location = new Point(12, 88);
+            Col_2.Location = new Point(13, 84);
             Col_2.Name = "Col_2";
             Col_2.Size = new Size(50, 21);
             Col_2.TabIndex = 2;
@@ -86,7 +80,7 @@
             // 
             Col_3.AutoSize = true;
             Col_3.Font = new Font("Segoe UI", 12F);
-            Col_3.Location = new Point(12, 175);
+            Col_3.Location = new Point(11, 165);
             Col_3.Name = "Col_3";
             Col_3.Size = new Size(73, 21);
             Col_3.TabIndex = 3;
@@ -96,7 +90,7 @@
             // 
             Col_4.AutoSize = true;
             Col_4.Font = new Font("Segoe UI", 12F);
-            Col_4.Location = new Point(12, 215);
+            Col_4.Location = new Point(11, 205);
             Col_4.Name = "Col_4";
             Col_4.Size = new Size(44, 21);
             Col_4.TabIndex = 4;
@@ -106,7 +100,7 @@
             // 
             Col_5.AutoSize = true;
             Col_5.Font = new Font("Segoe UI", 12F);
-            Col_5.Location = new Point(12, 251);
+            Col_5.Location = new Point(12, 241);
             Col_5.Name = "Col_5";
             Col_5.Size = new Size(89, 21);
             Col_5.TabIndex = 5;
@@ -131,7 +125,7 @@
             // 
             // Col2_Txt
             // 
-            Col2_Txt.Location = new Point(127, 86);
+            Col2_Txt.Location = new Point(128, 82);
             Col2_Txt.Multiline = true;
             Col2_Txt.Name = "Col2_Txt";
             Col2_Txt.Size = new Size(120, 69);
@@ -139,7 +133,7 @@
             // 
             // Col5_Txt
             // 
-            Col5_Txt.Location = new Point(137, 251);
+            Col5_Txt.Location = new Point(128, 241);
             Col5_Txt.Multiline = true;
             Col5_Txt.Name = "Col5_Txt";
             Col5_Txt.Size = new Size(152, 84);
@@ -178,7 +172,7 @@
             // Col4_Txt
             // 
             Col4_Txt.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            Col4_Txt.Location = new Point(127, 213);
+            Col4_Txt.Location = new Point(126, 203);
             Col4_Txt.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             Col4_Txt.Name = "Col4_Txt";
             Col4_Txt.Size = new Size(120, 23);
@@ -224,16 +218,71 @@
             // 
             Col3_Txt.FormattingEnabled = true;
             Col3_Txt.Items.AddRange(new object[] { "seed", "corp", "food", "fish", "other" });
-            Col3_Txt.Location = new Point(126, 175);
+            Col3_Txt.Location = new Point(125, 165);
             Col3_Txt.Name = "Col3_Txt";
             Col3_Txt.Size = new Size(121, 23);
             Col3_Txt.TabIndex = 20;
+            // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "All", "Seed", "Corp", "Food", "Fish", "Other" });
+            comboBox1.Location = new Point(310, 12);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 21;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // Col_0
+            // 
+            Col_0.AutoSize = true;
+            Col_0.Font = new Font("Segoe UI", 12F);
+            Col_0.Location = new Point(12, 14);
+            Col_0.Name = "Col_0";
+            Col_0.Size = new Size(25, 21);
+            Col_0.TabIndex = 22;
+            Col_0.Text = "ID";
+            // 
+            // Col0_Txt
+            // 
+            Col0_Txt.Location = new Point(127, 14);
+            Col0_Txt.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            Col0_Txt.Name = "Col0_Txt";
+            Col0_Txt.Size = new Size(120, 23);
+            Col0_Txt.TabIndex = 24;
+            Col0_Txt.TextAlign = HorizontalAlignment.Center;
+            // 
+            // listBox2
+            // 
+            listBox2.FormattingEnabled = true;
+            listBox2.ItemHeight = 15;
+            listBox2.Location = new Point(606, 46);
+            listBox2.Name = "listBox2";
+            listBox2.Size = new Size(187, 289);
+            listBox2.TabIndex = 25;
+            listBox2.SelectedIndexChanged += listBox2_SelectedIndexChanged;
+            // 
+            // comboBox2
+            // 
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "All", "Seed", "Corp", "Food", "Fish", "Other" });
+            comboBox2.Location = new Point(606, 12);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(121, 23);
+            comboBox2.TabIndex = 26;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(600, 357);
+            ClientSize = new Size(824, 357);
+            Controls.Add(comboBox2);
+            Controls.Add(listBox2);
+            Controls.Add(Col0_Txt);
+            Controls.Add(Col_0);
+            Controls.Add(comboBox1);
             Controls.Add(Col3_Txt);
             Controls.Add(prevBtn);
             Controls.Add(editBtn);
@@ -251,18 +300,16 @@
             Controls.Add(Col_3);
             Controls.Add(Col_2);
             Controls.Add(Col_1);
-            Controls.Add(AddColumn);
             Name = "MainForm";
             Text = "JSON Convert";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)Col4_Txt).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Col0_Txt).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Button AddColumn;
         private Label Col_1;
         private Label Col_2;
         private Label Col_3;
@@ -282,5 +329,10 @@
         private OpenFileDialog openFileDialog1;
         private FolderBrowserDialog folderBrowserDialog1;
         private ComboBox Col3_Txt;
+        private ComboBox comboBox1;
+        private Label Col_0;
+        private NumericUpDown Col0_Txt;
+        private ListBox listBox2;
+        private ComboBox comboBox2;
     }
 }
