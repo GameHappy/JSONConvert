@@ -128,7 +128,7 @@
             Col2_Txt.Location = new Point(128, 82);
             Col2_Txt.Multiline = true;
             Col2_Txt.Name = "Col2_Txt";
-            Col2_Txt.Size = new Size(120, 69);
+            Col2_Txt.Size = new Size(120, 42);
             Col2_Txt.TabIndex = 8;
             // 
             // Col5_Txt
@@ -222,6 +222,7 @@
             Col3_Txt.Name = "Col3_Txt";
             Col3_Txt.Size = new Size(121, 23);
             Col3_Txt.TabIndex = 20;
+            Col3_Txt.SelectedIndexChanged += Col3_Txt_SelectedIndexChanged;
             // 
             // comboBox1
             // 
@@ -246,6 +247,7 @@
             // 
             // Col0_Txt
             // 
+            Col0_Txt.Enabled = false;
             Col0_Txt.Location = new Point(127, 14);
             Col0_Txt.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             Col0_Txt.Name = "Col0_Txt";
@@ -266,6 +268,7 @@
             // comboBox2
             // 
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.Enabled = false;
             comboBox2.FormattingEnabled = true;
             comboBox2.Items.AddRange(new object[] { "All", "Seed", "Corp", "Food", "Fish", "Other" });
             comboBox2.Location = new Point(606, 12);

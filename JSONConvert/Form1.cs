@@ -6,6 +6,7 @@
     using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
     using System.Windows.Forms;
     using System.Security.Cryptography;
+    using System;
 
     public partial class MainForm : Form
     {
@@ -54,26 +55,28 @@
             }
             if (!_err)
             {
+
                 string msg = "";
-                //ItemID.Add(_ID);
-                //_Name.Add(_name);
-                //Detail.Add(_detail);
-                //ItemType.Add(_itemType);
-                //Price.Add(_price);
-                //Description.Add(_description);
-                dataItem.Add(new DataItem
+                DataItem _item = new DataItem
                 {
-                    ID = _ID,
+                    ID = dataItem.Count,
                     Name = _name,
                     Detail = _detail,
                     ItemType = _itemType,
                     Price = _price,
                     Description = _description
-                });
-                //msg = $"Name:{_name},Detail:{_detail},ItemType:{_itemType},Price:{_price},Description:{_description}";
-                listBox1.Items.Add(_name);
+                };
+                if (_item.ItemType == 0) _item.Detail = "duration:1";
+
+                if (comboBox1.SelectedIndex == 0 || comboBox1.SelectedIndex - 1 == _item.ItemType)
+                {
+                    listBox1.Items.Add(dataItem.Count - 1 + "-" + _name);
+                }
+                dataItem.Add(_item);
             }
+            Col0_Txt.Value = dataItem.Count;
         }
+
         private void prevBtn_Click(object sender, EventArgs e)
         {
             Col0_Txt.Value = preID;
@@ -82,59 +85,41 @@
             Col3_Txt.SelectedIndex = preItemType;
             Col4_Txt.Value = prePrice;
             Col5_Txt.Text = preDescription;
+            listBox2.Items.Clear();
             prevBtn.Enabled = false;
         }
         // data work
-        private bool itemIDChecker(int _ID)
-        {
-            foreach (int itemID in ItemID)
-            {
-                if (itemID == _ID) return true;
-            }
-            return false;
-        }
-        private void SwapItem(int ID_A, int ID_B)
-        {
-            DataItem _item = new DataItem
-            {
-                ID = ID_A,
-                Name = _Name[ID_A],
-                Detail = Detail[ID_A],
-                ItemType = ItemType[ID_A],
-                Price = Price[ID_A],
-                Description = Description[ID_A],
-            };
-        }
         private void IDRefresh()
         {
+            listBox1.Items.Clear();
             for (int i = 0; i < dataItem.Count; i++)
-                dataItem[i].ID = i;
+            {
+                if (comboBox1.SelectedIndex == 0 || comboBox1.SelectedIndex - 1 == dataItem[i].ItemType)
+                {
+                    dataItem[i].ID = i;
+                    listBox1.Items.Add(dataItem[i].ID + "-" + dataItem[i].Name);
+                }
+            }
         }
-        private void dataRemove(int Index)
+        private void dataRemove(int index)
         {
-            listBox1.Items.RemoveAt(Index);
-            dataItem.RemoveAt(Index);
-            //ItemID.RemoveAt(Index);
-            //_Name.RemoveAt(Index);
-            //Detail.RemoveAt(Index);
-            //ItemType.RemoveAt(Index);
-            //Price.RemoveAt(Index);
-            //Description.RemoveAt(Index);
+
+            string[] _index = listBox1.Items[index].ToString().Split('-');
+            listBox1.Items.RemoveAt(index);
+            dataItem.RemoveAt(int.Parse(_index[0]));
+
         }
         private void dataClear()
         {
             listBox1.Items.Clear();
             dataItem.Clear();
-            //ItemID.Clear();
-            //_Name.Clear();
-            //Detail.Clear();
-            //ItemType.Clear();
-            //Price.Clear();
-            //Description.Clear();
+
         }
         private void dataEdit(int index)
         {
-            dataItem[index] = new DataItem
+            string[] _index = listBox1.Items[index].ToString().Split('-');
+
+            dataItem[int.Parse(_index[0])] = new DataItem
             {
                 ID = (int)Col0_Txt.Value,
                 Name = Col1_Txt.Text,
@@ -143,13 +128,7 @@
                 Price = (int)Col4_Txt.Value,
                 Description = Col5_Txt.Text
             };
-            ItemID[index] = (int)Col0_Txt.Value;
-            listBox1.Items[index] = Col1_Txt.Text;
-            //_Name[index] = Col1_Txt.Text;
-            //Detail[index] = Col2_Txt.Text;
-            //ItemType[index] = (int)Col3_Txt.SelectedIndex;
-            //Price[index] = (int)Col4_Txt.Value;
-            //Description[index] = Col5_Txt.Text;
+            listBox1.Items[index] = Col0_Txt.Value + "-" + Col1_Txt.Text;
             listEditOnly = false;
         }
         // data work end
@@ -165,6 +144,8 @@
         {
             if (listBox1.SelectedIndex == -1) return;
             dataRemove(listBox1.SelectedIndex);
+            IDRefresh();
+
         }
 
         private void OutputBtn_Click(object sender, EventArgs e)
@@ -174,19 +155,6 @@
             {
                 string filePath = folderBrowserDialog1.SelectedPath;
 
-                //List<DataItem> dataItems = new List<DataItem>();
-                //for (int i = 0; i < _Name.Count; i++)
-                //{
-                //    dataItems.Add(new DataItem
-                //    {
-                //        ID = ItemID[i],
-                //        Name = _Name[i],
-                //        Detail = Detail[i],
-                //        ItemType = ItemType[i],
-                //        Price = Price[i],
-                //        Description = Description[i],
-                //    });
-                //}
                 string json = JsonConvert.SerializeObject(dataItem, Formatting.Indented);
 
                 File.WriteAllText($"{filePath}\\Itemdatabase.json", json);
@@ -194,6 +162,20 @@
                 MessageBox.Show("save to Json");
             }
 
+        }
+        private void InputBtn_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog1.FileName;
+                string json = File.ReadAllText(filePath);
+
+                List<DataItem> dataItems = JsonConvert.DeserializeObject<List<DataItem>>(json);
+                dataClear();
+                dataItem = dataItems;
+                comboBox1.SelectedIndex = 0;
+                IDRefresh();
+            }
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,6 +190,8 @@
                 preDescription = Col5_Txt.Text;
             }
             int index = listBox1.SelectedIndex;
+            string[] _index = listBox1.Items[index].ToString().Split('-');
+            index = int.Parse(_index[0]);
             if (index == -1) return;
             if (!listEditOnly)
             {
@@ -217,46 +201,92 @@
                 Col3_Txt.SelectedIndex = dataItem[index].ItemType;
                 Col4_Txt.Value = dataItem[index].Price;
                 Col5_Txt.Text = dataItem[index].Description;
+                if (dataItem[index].ItemType == 0) Seed_For_Corp();
+                else if (dataItem[index].ItemType == 1) Corp_For_Seed();
+                else ClearList2();
             }
             editBtn.Enabled = true;
             prevBtn.Enabled = true;
-            IDRefresh();
-            
         }
+        // "seed", "corp", "food", "fish", "other" 
+        // seed => corp
+        // corp => seed
+        // seed detial need duration:
+        // corp detail need seed name
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void InputBtn_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            int ItemIndex_1 = listBox1.SelectedIndex;
+            int ItemIndex_2 = listBox2.SelectedIndex;
+            if (ItemIndex_1 == -1 || ItemIndex_2 == -1) return;
+            string[] _index = listBox2.Items[ItemIndex_2].ToString().Split('-');
+            ItemIndex_2 = int.Parse(_index[0]);
+            int filterIndex = comboBox2.SelectedIndex - 1;
+            if (filterIndex == 0)//c2 seed, c1 corp
             {
-                string filePath = openFileDialog1.FileName;
-                string json = File.ReadAllText(filePath);
+                string str = dataItem[ItemIndex_1].Detail;
+                dataItem[ItemIndex_1].Detail = "seed:" + dataItem[ItemIndex_2].Name;
+                Col2_Txt.Text = dataItem[ItemIndex_1].Detail;
+            }
+            else if (filterIndex == 1)//c2 corp, c1 seed
+            {
 
-                List<DataItem> dataItems = JsonConvert.DeserializeObject<List<DataItem>>(json);
-                dataClear();
-                dataItem = dataItems;
-                foreach (var item in dataItems)
-                {
-                    listBox1.Items.Add(item.Name);
-                }
-                comboBox1.SelectedIndex = 0;
+                string str = dataItem[ItemIndex_2].Detail;
+                dataItem[ItemIndex_2].Detail = "seed:" + dataItem[ItemIndex_1].Name;
             }
         }
-
-        public class DataItem
+        private int SearchNameIndex(string _name)
         {
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public string Detail { get; set; }
-            public int ItemType { get; set; }
-            public int Price { get; set; }
-            public string Description { get; set; }
+            for (int i = 0; i < dataItem.Count; i++)
+            {
+                if (dataItem[i].Name == _name) return i;
+            }
+            return -1;
+        }
+        private void Seed_For_Corp()
+        {
+            listBox2.Items.Clear();
+            comboBox2.SelectedIndex = 2;
+            int filterIndex = 1;
+            string seedName = "";
+
+            foreach (DataItem item in dataItem)
+            {
+                string corpdetail = item.Detail;
+                if (corpdetail.IndexOf("seed:") != -1) seedName = corpdetail.Substring(corpdetail.IndexOf(':') + 1);
+                if (item.ItemType == filterIndex)
+                {
+                    listBox2.Items.Add(item.ID + "-" + item.Name);
+                    if (seedName != "" && seedName == dataItem[listBox1.SelectedIndex].Name) listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                }
+            }
+
         }
 
+        private void Corp_For_Seed()
+        {
+            listBox2.Items.Clear();
+            comboBox2.SelectedIndex = 1;
+            int filterIndex = 0;
+            string seedName = "";
+            string corpdetail = dataItem[listBox1.SelectedIndex].Detail;
+            if (corpdetail.IndexOf("seed:") != -1) seedName = corpdetail.Substring(corpdetail.IndexOf(':') + 1);
+            foreach (DataItem item in dataItem)
+            {
+                if (item.ItemType == filterIndex)
+                {
+                    listBox2.Items.Add(item.ID + "-" + item.Name);
+                    if (seedName != "" && seedName == item.Name) listBox2.SelectedIndex = listBox2.Items.Count - 1;
+                }
+            }
+
+        }
+
+        private void ClearList2()
+        {
+            listBox2.Items.Clear();
+            comboBox2.SelectedIndex = -1;
+        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             int filterIndex = comboBox1.SelectedIndex - 1;
@@ -265,16 +295,28 @@
             {
                 foreach (DataItem item in dataItem)
                 {
-                    listBox1.Items.Add(item.Name);
+                    listBox1.Items.Add(item.ID + "-" + item.Name);
                 }
             }
             else
             {
                 foreach (DataItem item in dataItem)
                 {
-                    if (item.ItemType == filterIndex) listBox1.Items.Add(item.Name);
+                    if (item.ItemType == filterIndex) listBox1.Items.Add(item.ID + "-" + item.Name);
                 }
             }
+        }
+        private void Col3_Txt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+        public class DataItem
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public string Detail { get; set; }
+            public int ItemType { get; set; }
+            public int Price { get; set; }
+            public string Description { get; set; }
         }
 
 
